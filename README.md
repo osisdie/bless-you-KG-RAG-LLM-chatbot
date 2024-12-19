@@ -23,7 +23,7 @@
 
 籤詩文化是華人社會深厚的傳統，透過神諭指引人們面對人生的困惑。本專案試圖將古老的籤詩文化與現代科技結合，利用人工智慧技術，提供使用者更便捷、更深入的解籤體驗，讓傳統文化得以在現代社會中煥發新光彩。
 
-人工智慧技術的快速發展為各行各業帶來了革新。本專案將 AI 應用於傳統的籤詩文化中，旨在探索 AI 在文化領域的潛力。透過結合 RAG、LLM、Chatbot 與知識圖等技術，我們期望能打造一個智能化的解籤平台，輔助使用者更深入地理解籤詩。然而，由於籤詩解讀具有高度主觀性，AI 提供的結果僅供參考，不應完全作為決策的唯一依據。
+人工智慧技術的快速發展為各行各業帶來了革新。本專案將 AI 應用於傳統的籤詩文化中，旨在探索 AI 在文化領域的潛力。透過結合[RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)、[LLM](https://en.wikipedia.org/wiki/Large_language_model)、[Chatbot](https://en.wikipedia.org/wiki/Chatbot) 與[知識圖](https://en.wikipedia.org/wiki/Knowledge_graph)等技術，我們期望能打造一個智能化的解籤平台，輔助使用者更深入地理解籤詩。然而，由於籤詩解讀具有高度主觀性，AI 提供的結果僅供參考，不應完全作為決策的唯一依據。
 
 注意事項：
 AI 解籤的局限性： 籤詩解讀牽涉到文化、宗教、哲學等多方面因素，AI 模型雖然能提供客觀的分析，但無法完全取代人類的智慧和經驗。
@@ -31,11 +31,12 @@ AI 解籤的局限性： 籤詩解讀牽涉到文化、宗教、哲學等多方�
 
 Fortune stick culture, deeply rooted in Chinese-speaking societies, offers divine guidance to navigate life’s uncertainties. As interpretations of fortune stick verses evolve with time, this project integrates this ancient tradition with modern technology. By utilizing artificial intelligence (AI), we aim to provide users with a more accessible and insightful interpretation experience, ensuring the relevance and vibrancy of this cultural practice in today’s society.
 
-This project explores the application of AI in cultural domains, combining advanced technologies such as RAG, Large Language Models (LLMs), chatbots, and knowledge graphs. Our goal is to create an intelligent platform that not only delivers precise textual interpretations but also fosters interactive exploration of the deeper meanings behind fortune sticks.
-
-"In several APEC cultures, including Chinese, Japanese, and Korean, people visit temples and draw fortune sticks for guidance. These sticks contain cryptic verses offering insights into various aspects of life, such as health, career, and relationships. This project leverages Retrieval-Augmented Generation (RAG) and LLMs to provide diverse interpretations. However, personal reflection remains key, with AI serving as a complementary tool."
+This project explores the application of AI in cultural domains, combining advanced technologies such as [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation), Large Language Models ([LLM](https://en.wikipedia.org/wiki/Large_language_model)), [chatbot](https://en.wikipedia.org/wiki/Chatbot), and knowledge graph ([KG](https://en.wikipedia.org/wiki/Knowledge_graph)). Our goal is to create an intelligent platform that not only delivers precise textual interpretations but also fosters interactive exploration of the deeper meanings behind fortune sticks. However, personal reflection remains key, with AI serving as a complementary tool.
 
 ---
+
+<br>
+<br>
 
 # About Graph+RAG
 
@@ -51,15 +52,18 @@ You can perform a similarity search (e.g., top 1 to 3 matches, based on your pre
 
 ---
 
+<br>
+<br>
+
 # Preprocessing
 
-### 1. **Web Crawler**
+## **1.Web Crawler**
 
-1.1 Use a web crawler to collect data on 100 poems, including their text and images.
+**1.1 Use a web crawler** to collect data on 100 poems, including their text and images.
 
 > Implementation: [step1-bless_u_crawler](./pre-process/step1-bless_u_crawler.ipynb)
 
-1.2 The output includes the JSON file [all_chances.json](./data/all_chances.json) and a knowledge graph overview generated using NetworkX.
+**1.2 The output** includes the JSON file [all_chances.json](./data/all_chances.json) and a knowledge graph overview generated using NetworkX.
 
 ### **Poem Categories**
 
@@ -72,32 +76,68 @@ You can perform a similarity search (e.g., top 1 to 3 matches, based on your pre
 
 ---
 
-### 2. **LLM for Expanded Poem Interpretations**
+<br>
+<br>
 
-2.1 Generate additional `UserPrompt` data using LLMs by specifying parameters such as `model`, `temperature`, and `max_tokens`. This step is optional; the system can auto-generate prompts at runtime during user interaction.
+## **2.LLM for Expanded Poem Interpretations**
+
+**2.1 Generate additional `UserPrompt`** data using LLMs by specifying parameters such as `model`, `temperature`, and `max_tokens`. This step is optional; the system can auto-generate prompts at runtime during user interaction.
 
 > Implementation: [step2-bless_u_LLM-poem-answers-gen](./pre-process/step2-bless_u_LLM-poem-answers-gen.ipynb)
 
 > **Note**: If you encounter API issues, verify your `API_KEY` and ensure sufficient credits. Use [tool-bless_u_LLM-api-test](./pre-process/tool-bless_u_LLM-api-test.ipynb) for troubleshooting.
 
-2.2 Intermediate output is stored in [all_contexts.json](./data/all_contexts.json).
+**2.2 Intermediate output** is stored in [all_contexts.json](./data/all_contexts.json).
 
 ---
 
-### 3. **Export to Neo4j Graph Database**
+<br>
+<br>
 
-3.1 Export poem data and their extended knowledge relationships into a Neo4j graph database.
+## **3.Choosing a Word Embedding Model**
 
-> Implementation: [step3-bless_u_neo4j](./pre-process/step3-bless_u_neo4j.ipynb)
+This section explores whether pre-trained or fine-tuned word embedding models are best suited for achieving high cosine similarity scores in Neo4j's `gds.similarity.cosine` function. Our findings suggest that a pre-trained model like `ckiplab/bert-base-chinese` performs well, although further optimization might be possible.
 
-3.2 Verify the graph structure in the Neo4j dashboard. Below is an example showing Poem #15 and its relations:
+**3.1 Pre-trained vs. Fine-tuned Models**
+
+While fine-tuning a model can potentially improve performance on specific tasks, our experiments indicate that a pre-trained model is sufficient for our current needs. Fine-tuned models exhibited higher validation loss, suggesting potential issues with overfitting or data quality.
+
+**3.2 Training Results**
+
+Detailed implementation and results of the fine-tuning experiments can be found in the following files:
+
+* Training notebook: [step3-bless_u_model_fine_tuning.ipynb](./pre-process/step3-bless_u_model_fine_tuning.ipynb)
+* Performance analysis: [BERT.md](./BERT.md)
+
+**Visualization:**
+
+The following charts provide a visual comparison of training and validation losses for the fine-tuned models:
+
+* **Training Loss:** ![Image of training_results_loss.png](./images/training_results_loss.png)
+* **Validation Loss:** ![Image of training_results_eval.png](./images/training_results_eval.png)
+
+---
+
+<br>
+<br>
+
+## **4.Export to Neo4j Graph Database**
+
+**4.1 Export** poem data and their extended knowledge relationships into a Neo4j graph database.
+
+> Implementation: [step4-bless_u_neo4j](./pre-process/step4-bless_u_neo4j.ipynb)
+
+**4.2 Verify** the graph structure in the Neo4j dashboard. Below is an example showing Poem #15 and its relations:
 ![Neo4j Example](./images/neo4j-poem.png)
 
 ---
 
-### 4. **Graph Design Concepts**
+<br>
+<br>
 
-4.1 Key Cypher queries illustrate node-edge-node relationships for poems in Neo4j:
+## **5.Graph Design Concepts**
+
+**5.1 Key cypher queries** illustrate node-edge-node relationships for poems in Neo4j:
 
 ### Create Initial Graph
 
@@ -148,17 +188,20 @@ LIMIT 3
 
 ---
 
+<br>
+<br>
+
 # Launch the Web UI
 
-### 5. **Run the Gradio App**
+## **6.Run the Gradio App**
 
-5.1 Execute [bless_u_chatbot_100](./bless_u_chatbot_100.ipynb) to launch a Gradio app with a 72-hour accessible weblink for testing.
+6.1 Execute [bless_u_chatbot_100](./bless_u_chatbot_100.ipynb) to launch a Gradio app with a 72-hour accessible weblink for testing.
 
-### Initial Interface
+### **Initial Interface**
 
 ![Web UI Initial View](./images/webui-app.png)
 
-### Interaction Example
+### **Interaction Example**
 
 Interact with the system to receive poem interpretations and ask questions:
 ![Web UI Interaction Example](./images/webui-debug.png)
