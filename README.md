@@ -33,7 +33,25 @@ Fortune stick culture, deeply rooted in Chinese-speaking societies, offers divin
 
 This project explores the application of AI in cultural domains, combining advanced technologies such as [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation), Large Language Models ([LLM](https://en.wikipedia.org/wiki/Large_language_model)), [chatbot](https://en.wikipedia.org/wiki/Chatbot), and knowledge graph ([KG](https://en.wikipedia.org/wiki/Knowledge_graph)). Our goal is to create an intelligent platform that not only delivers precise textual interpretations but also fosters interactive exploration of the deeper meanings behind fortune sticks. However, personal reflection remains key, with AI serving as a complementary tool.
 
----
+
+<br>
+<br>
+
+# Technique / Tools
+
+| **Technology/Tool** | **Purpose** | **Description** |
+|---|---|---|
+| BeautifulSoup | Web Scraping | Scrapes data from websites, such as poetry databases. |
+| JSON/CSV | Data Storage | Stores processed data in standardized formats for easy analysis and use. |
+| Pandas | Data Processing | Cleans, transforms, and analyzes data, e.g., removing duplicates, filling missing values. |
+| networkx | Knowledge Graph Visualization | Visualizes knowledge graphs to understand complex relationships. |
+| OCR | Optical Character Recognition | Extracts text from images, such as scanned poems. |
+| Data Augmentation | Data Expansion | Generates additional training data by transforming existing data, improving model generalization. |
+| ckiplab/bert-base-chinese | Natural Language Processing | Fine-tunes a pre-trained language model to better understand the intent and context of queries. |
+| Word Embedding | Text Vectorization | Converts text into numerical representations, enabling machine learning models to process text. |
+| Neo4j | Knowledge Graph Database | Builds a graph database to store and query knowledge, such as relationships between poems. |
+| LLM API | Large Language Model API | Utilizes powerful language models to generate more natural and expressive responses. |
+| Gradio | Web Interface | Creates a user-friendly web interface for interacting with the model. |
 
 <br>
 <br>
@@ -49,8 +67,6 @@ For example, after interacting with the system, **Poem #27** now has two additio
 You can perform a similarity search (e.g., top 1 to 3 matches, based on your preference) within the same poem's questions. If a match exceeds a similarity threshold (e.g., `0.75`), the system can return the existing LLM response directly.
 
 ![Neo4j Embedding Example](./images/neo4j-embedding.png)
-
----
 
 <br>
 <br>
@@ -74,7 +90,6 @@ You can perform a similarity search (e.g., top 1 to 3 matches, based on your pre
 - **Bad Poems**: 20 poems in total.
   ![Bad Poems Knowledge Graph](./images/knowledge_graph_group_bad_20.png)
 
----
 
 <br>
 <br>
@@ -88,8 +103,6 @@ You can perform a similarity search (e.g., top 1 to 3 matches, based on your pre
 > **Note**: If you encounter API issues, verify your `API_KEY` and ensure sufficient credits. Use [tool-bless_u_LLM-api-test](./pre-process/tool-bless_u_LLM-api-test.ipynb) for troubleshooting.
 
 **2.2 Intermediate output** is stored in [all_contexts.json](./data/all_contexts.json).
-
----
 
 <br>
 <br>
@@ -130,7 +143,6 @@ The following charts provide a visual comparison of training and validation loss
 **4.2 Verify** the graph structure in the Neo4j dashboard. Below is an example showing Poem #15 and its relations:
 ![Neo4j Example](./images/neo4j-poem.png)
 
----
 
 <br>
 <br>
@@ -186,7 +198,6 @@ ORDER BY similarity DESC
 LIMIT 3
 ```
 
----
 
 <br>
 <br>
