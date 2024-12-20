@@ -77,7 +77,7 @@ You can perform a similarity search (e.g., top 1 to 3 matches, based on your pre
 
 **1.1 Use a web crawler** to collect data on 100 poems, including their text and images.
 
-> Implementation: [step1-bless_u_crawler](./pre-process/step1-bless_u_crawler.ipynb)
+> Implementation: [step1-bless_u-crawler](./pre-process/step1-bless_u-crawler.ipynb)
 
 **1.2 The output** includes the JSON file [all_chances.json](./data/all_chances.json) and a knowledge graph overview generated using NetworkX.
 
@@ -98,9 +98,9 @@ You can perform a similarity search (e.g., top 1 to 3 matches, based on your pre
 
 **2.1 Generate additional `UserPrompt`** data using LLMs by specifying parameters such as `model`, `temperature`, and `max_tokens`. This step is optional; the system can auto-generate prompts at runtime during user interaction.
 
-> Implementation: [step2-bless_u_LLM-poem-answers-gen](./pre-process/step2-bless_u_LLM-poem-answers-gen.ipynb)
+> Implementation: [step2-bless_u-LLM-poem-answers-gen](./pre-process/step2-bless_u-LLM-poem-answers-gen.ipynb)
 
-> **Note**: If you encounter API issues, verify your `API_KEY` and ensure sufficient credits. Use [tool-bless_u_LLM-api-test](./pre-process/tool-bless_u_LLM-api-test.ipynb) for troubleshooting.
+> **Note**: If you encounter API issues, verify your `API_KEY` and ensure sufficient credits. Use [tool-bless_u-LLM-api-test](./pre-process/tool-bless_u-LLM-api-test.ipynb) for troubleshooting.
 
 **2.2 Intermediate output** is stored in [all_contexts.json](./data/all_contexts.json).
 
@@ -119,7 +119,7 @@ While fine-tuning a model can potentially improve performance on specific tasks,
 
 Detailed implementation and results of the fine-tuning experiments can be found in the following files:
 
-* Training notebook: [step3-bless_u_model_fine_tuning.ipynb](./pre-process/step3-bless_u_model_fine_tuning.ipynb)
+* Training notebook: [step3-bless_u-model-fine-tuning.ipynb](./pre-process/step3-bless_u-model-fine-tuning.ipynb)
 * Performance analysis: [BERT.md](./BERT.md)
 
 **Visualization:**
@@ -138,7 +138,7 @@ The following charts provide a visual comparison of training and validation loss
 
 **4.1 Export** poem data and their extended knowledge relationships into a Neo4j graph database.
 
-> Implementation: [step4-bless_u_neo4j](./pre-process/step4-bless_u_neo4j.ipynb)
+> Implementation: [step4-bless_u-neo4j](./pre-process/step4-bless_u-neo4j.ipynb)
 
 **4.2 Verify** the graph structure in the Neo4j dashboard. Below is an example showing Poem #15 and its relations:
 ![Neo4j Example](./images/neo4j-poem.png)
@@ -206,7 +206,7 @@ LIMIT 3
 
 ## **6.Run the Gradio App**
 
-6.1 Execute [bless_u_chatbot_100](./bless_u_chatbot_100.ipynb) to launch a Gradio app with a 72-hour accessible weblink for testing.
+6.1 Execute [bless_u-chatbot-100](./bless_u-chatbot-100.ipynb) to launch a Gradio app with a 72-hour accessible weblink for testing.
 
 ### **Initial Interface**
 
