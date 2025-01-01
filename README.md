@@ -122,19 +122,21 @@ Detailed implementation and results of the fine-tuning experiments can be found 
 * Training notebook: [step3-bless_u-model-fine-tuning.ipynb](./pre-process/step3-bless_u-model-fine-tuning.ipynb)
 * Performance analysis: [BERT.md](./BERT.md)
 
-**Visualization:**
+**3.3 Visualize metrics per epoch**
 
 The following charts provide a visual comparison of training and validation losses for the fine-tuned models:
 
 * **Training Loss:** ![Image of training_results_loss.png](./images/training_results_loss.png)
 * **Validation Loss:** ![Image of training_results_eval.png](./images/training_results_eval.png)
 
----
-
 <br>
 <br>
 
-## **4.Export to Neo4j Graph Database**
+## **4.Neo4j Graph Database Design**
+
+Since text embedding and similarity search algorithm is decided, now, we expect get advantage on exporting all the poem data and future prompt Q&As, Neo4j database itself can directly compute similairty in the database end, providing similair prompts on the same poem from the history.
+
+![Neo4j Design](./images/neo4j-design.png)
 
 **4.1 Export** poem data and their extended knowledge relationships into a Neo4j graph database.
 
@@ -143,15 +145,12 @@ The following charts provide a visual comparison of training and validation loss
 **4.2 Verify** the graph structure in the Neo4j dashboard. Below is an example showing Poem #15 and its relations:
 ![Neo4j Example](./images/neo4j-poem.png)
 
+**4.3 Graph Design Concepts**
 
-<br>
-<br>
+The following key cypher queries illustrate node-edge-node relationships for each poem in Neo4j:
 
-## **5.Graph Design Concepts**
-
-**5.1 Key cypher queries** illustrate node-edge-node relationships for poems in Neo4j:
-
-### Create Initial Graph
+#### Create Initial Graph
+Create each poem node (we have 100 in total) and its all relationship to the other nodes.
 
 ```cypher
 CREATE (p1:Poem {number: 1, name: "第一首", ...})
@@ -164,7 +163,8 @@ MERGE (e1)-[:HAS_FIVE_ELEMENT]->(f1:FiveElement {name: "水"})
 MERGE (e1)-[:HAS_ZODIAC]->(z1:Zodiac {name: "鼠"})
 ```
 
-### Add User Prompt and LLM Info
+#### Add User Prompt and LLM Info
+Once get a new user prompt's Q&A, let's store in the Neo4j, it could be for computing similairty based on its `purpose_embedding` and `llm_response_embedding` data.
 
 ```cypher
 MATCH (p:Poem {number: $poem_number})
@@ -173,7 +173,8 @@ CREATE (up:UserPrompt {text: "求身體健康", llm_response: "good luck!", purp
 CREATE (p)-[:HAS_PROMPT]->(up)
 ```
 
-### Simple Search
+#### Simple Search
+To retrieve basic `poem` and its related data.
 
 ```cypher
 MATCH (p:Poem {number: 1})
@@ -186,7 +187,8 @@ MATCH (e)-[:HAS_ZODIAC]->(z)
 RETURN p.name, b.籤名, i.purpose, a.answer, e.name as 地支, f.name as 五行, z.name as 生肖, ...
 ```
 
-### Similarity Search
+#### **Similarity Search**
+Similairty search is the goal we built Neo4j for. As mentioned we use `gds.similarity.cosine` for searching algorithm on `purpose_embedding` field.
 
 ```cypher
 MATCH (p:Poem {number: 1})-[:HAS_PROMPT]->(up:UserPrompt)
@@ -198,7 +200,6 @@ ORDER BY similarity DESC
 LIMIT 3
 ```
 
-
 <br>
 <br>
 
@@ -206,7 +207,7 @@ LIMIT 3
 
 ## **6.Run the Gradio App**
 
-6.1 Execute [bless_u-chatbot-100](./bless_u-chatbot-100.ipynb) to launch a Gradio app with a 72-hour accessible weblink for testing.
+6.1 Execute [bless_u-chatbot-100](./bless_u-chatbot-100.ipynb) to launch a `Gradio` app with a 72-hour accessible weblink for testing.
 
 ### **Initial Interface**
 
@@ -219,6 +220,6 @@ Interact with the system to receive poem interpretations and ask questions:
 
 ---
 
-**Enjoy the platform, and we look forward to your feedback!**
+**Enjoy the platform, and we look forward to getting your feedback!**
 
 ---
