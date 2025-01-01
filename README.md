@@ -218,6 +218,9 @@ LIMIT 3
 Interact with the system to receive poem interpretations and ask questions:
 ![Web UI Interaction Example](./images/webui-debug.png)
 
+<br>
+<br>
+
 ---
 
 **Enjoy the platform, and we look forward to getting your feedback!**

@@ -1,0 +1,25 @@
+[flake8]
+# Maximum line length
+max-line-length = 120
+
+# Ignore specific errors or warnings
+ignore =
+    E203,
+    E266,
+
+# Exclude specific files or directories
+exclude =
+    .git,
+    __pycache__,
+    build,
+    dist,
+    migrations,
+    venv,
+    node_modules
+
+# Include specific file types
+filename = *.py *.ipynb
+
+# Enable plugins (e.g., flake8-bugbear)
+; per-file-ignores =
+;     tests/*: E402  # Ignore E402 (module import not at the top of the file) in tests/ directory

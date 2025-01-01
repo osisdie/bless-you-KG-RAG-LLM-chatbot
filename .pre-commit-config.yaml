@@ -13,7 +13,7 @@ repos:
   rev: 7.1.1
   hooks:
   - id: flake8
-    args: [--max-line-length=120, --ignore=E203, --select=E,W,F]
+    args: ["--max-line-length=120", "--ignore=E203", "--select=E,W,F"]
 - repo: https://github.com/PyCQA/isort
   rev: 5.13.2
   hooks:
